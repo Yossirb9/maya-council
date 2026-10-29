@@ -6,7 +6,7 @@
 <title>מאיה למועצה</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;700;800;900&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;700;800;900&family=Amatic+SC:wght@700&display=swap" rel="stylesheet">
 <style>
 :root{
   --sky-25:#f5fbff; --sky-50:#eaf7ff; --sky-100:#d6f0ff; --sky-200:#b3e4fd; --sky-300:#7fd2fb;
@@ -140,20 +140,32 @@ h2{font-size:clamp(34px,4.4vw,72px);font-weight:900;line-height:1.05;margin:18px
 .equation{display:inline-flex;align-items:center;gap:14px;margin-top:22px;padding:16px 30px;border-radius:22px;font-weight:900;font-size:clamp(19px,1.8vw,28px);
   background:linear-gradient(100deg,#fff6cf,var(--sun));color:var(--navy);box-shadow:0 18px 34px -16px rgba(200,150,0,.55)}
 .equation em{font-style:normal;color:var(--sky-600);font-size:1.3em}
-.boxStage{position:relative;height:min(60vh,520px);display:flex;align-items:flex-end;justify-content:center}
-.box{position:relative;width:min(100%,400px);height:62%;border-radius:34px 34px 40px 40px;background:linear-gradient(160deg,var(--sky-300),var(--sky-500));
-  box-shadow:0 40px 70px -26px rgba(10,99,153,.75),inset 0 3px 0 rgba(255,255,255,.45),inset 0 -14px 30px rgba(10,99,153,.3);display:grid;place-items:center;z-index:2}
-.box .lbl{color:#fff;font-weight:900;font-size:clamp(30px,3vw,50px);text-align:center;line-height:1.05;text-shadow:0 4px 14px rgba(10,99,153,.5)}
-.box .lbl small{display:block;font-size:.42em;font-weight:700;opacity:.9;margin-top:8px}
-.slot{position:absolute;top:-10px;left:16%;right:16%;height:22px;border-radius:12px;background:var(--navy);box-shadow:inset 0 6px 8px rgba(0,0,0,.5),0 0 0 6px var(--sky-200)}
-.paper{position:absolute;top:0;left:50%;width:min(76%,290px);padding:16px 20px;background:#fff;border-radius:14px;font-weight:800;font-size:clamp(15px,1.3vw,20px);color:var(--ink);text-align:center;
-  box-shadow:0 18px 30px -14px rgba(10,99,153,.55);transform:translate(-50%,0);z-index:1;opacity:0}
-.paper::before{content:'💡';margin-left:8px}
-.paper.go{animation:dropIn 3.2s var(--ease) forwards}
-@keyframes dropIn{0%{opacity:0;transform:translate(-50%,-40px) rotate(-8deg)}15%{opacity:1;transform:translate(-50%,0) rotate(4deg)}55%{opacity:1;transform:translate(-50%,8%) rotate(-2deg)}
-  85%{opacity:1;transform:translate(-50%,calc(min(60vh,520px)*.36)) rotate(0)}100%{opacity:0;transform:translate(-50%,calc(min(60vh,520px)*.42)) rotate(0)}}
-.counter{position:absolute;top:8%;left:2%;z-index:3;background:#fff;border-radius:18px;padding:12px 18px;font-weight:800;color:var(--sky-700);box-shadow:var(--shadow);font-size:clamp(14px,1.2vw,18px)}
-.counter b{font-size:1.6em;color:var(--sky-500);display:block;line-height:1}
+.boxStage{position:relative;height:min(60vh,520px);display:flex;flex-direction:column;align-items:center;justify-content:flex-end;gap:14px}
+.box{position:relative;width:min(100%,400px);height:62%;border-radius:34px 34px 40px 40px;background:linear-gradient(160deg,var(--sky-300),var(--sky-500));cursor:pointer;
+  box-shadow:0 40px 70px -26px rgba(10,99,153,.75),inset 0 3px 0 rgba(255,255,255,.45),inset 0 -14px 30px rgba(10,99,153,.3);display:flex;flex-direction:column;align-items:center;justify-content:space-between;padding:12% 7% 7%;z-index:2;transform-origin:50% 100%;animation:breathe 3.4s ease-in-out infinite}
+@keyframes breathe{50%{transform:scale(1.012,.99)}}
+.box:focus-visible{outline:4px solid var(--sky-600);outline-offset:6px}
+.box .lbl{color:#fff;font-weight:900;font-size:clamp(28px,2.8vw,46px);text-align:center;line-height:1.02;text-shadow:0 4px 14px rgba(10,99,153,.5)}
+.box .lbl small{display:block;font-size:.4em;font-weight:700;opacity:.92;margin-top:6px}
+.slot{position:absolute;top:-10px;left:16%;right:16%;height:22px;border-radius:12px;background:var(--navy);box-shadow:inset 0 6px 8px rgba(0,0,0,.5),0 0 0 6px var(--sky-200);z-index:3}
+.slot::after{content:'';position:absolute;inset:-6px;border-radius:16px;opacity:0;box-shadow:0 0 0 6px #fff,0 0 30px 12px var(--aqua)}
+.slot.glow::after{animation:slotGlow .7s ease-out}
+@keyframes slotGlow{0%{opacity:1}100%{opacity:0}}
+.pile{position:relative;width:100%;height:36%;border-radius:20px;overflow:hidden;
+  background:linear-gradient(180deg,rgba(255,255,255,.18),rgba(255,255,255,.34));box-shadow:inset 0 0 0 2px rgba(255,255,255,.55),inset 0 10px 24px rgba(10,99,153,.25)}
+.pile::after{content:'';position:absolute;inset:0;background:linear-gradient(115deg,rgba(255,255,255,.45) 0 18%,transparent 18% 30%,rgba(255,255,255,.22) 30% 36%,transparent 36%);pointer-events:none}
+.pile i{position:absolute;width:24%;height:30%;border-radius:4px;box-shadow:0 3px 6px rgba(10,99,153,.3)}
+.note{position:absolute;left:0;top:0;width:clamp(150px,13vw,196px);padding:22px 14px 14px;border-radius:6px 6px 14px 6px;text-align:center;z-index:1;pointer-events:none;will-change:transform,opacity;
+  box-shadow:0 22px 30px -16px rgba(10,99,153,.6),0 2px 0 rgba(10,99,153,.06);background:var(--c,#fff);backface-visibility:hidden}
+.note::before{content:'';position:absolute;top:-9px;left:50%;width:58px;height:20px;margin-left:-29px;background:rgba(214,240,255,.75);border:1px solid rgba(255,255,255,.9);transform:rotate(-4deg)}
+.note::after{content:'';position:absolute;right:0;bottom:0;width:18px;height:18px;background:linear-gradient(135deg,rgba(10,99,153,.16) 50%,transparent 50%);border-radius:0 0 14px 0}
+.note small{display:block;font:700 12px 'Rubik',sans-serif;color:var(--sky-600);letter-spacing:.02em;margin-bottom:2px}
+.note span{display:block;font:700 clamp(26px,2.3vw,34px)/1 'Amatic SC','Rubik',cursive;color:var(--navy)}
+.spark{position:absolute;left:0;top:0;width:12px;height:12px;border-radius:50%;z-index:4;pointer-events:none}
+.plus{position:absolute;left:0;top:0;z-index:4;pointer-events:none;font-weight:900;font-size:clamp(22px,2vw,30px);color:var(--sky-600);text-shadow:0 2px 0 #fff,0 0 12px #fff}
+.counter{position:absolute;top:6%;left:0;z-index:3;background:#fff;border-radius:18px;padding:12px 18px;font-weight:800;color:var(--sky-700);box-shadow:var(--shadow);font-size:clamp(14px,1.2vw,18px)}
+.counter b{font-size:1.6em;color:var(--sky-500);display:block;line-height:1;font-variant-numeric:tabular-nums}
+.tapHint{font-weight:700;font-size:clamp(13px,1.05vw,16px);color:var(--sky-700);opacity:.8}
 
 /* ---------- 6. why me ---------- */
 .why{text-align:center}
@@ -318,8 +330,8 @@ footer.foot{position:absolute;bottom:2.4vh;right:50%;transform:translateX(50%);z
       </div>
       <div class="boxStage rv r" style="--i:4" data-depth="14">
         <div class="counter">רעיונות בתיבה<b id="ideaCount">0</b></div>
-        <div class="paper" id="paper">הרעיון שלי...</div>
-        <div class="box"><div class="slot"></div><div class="lbl">תיבת<br>הרעיונות<small>כל רעיון נחשב</small></div></div>
+        <div class="box" id="ideaBox" role="button" tabindex="0" aria-label="להוסיף רעיון לתיבה"><div class="slot" id="slot"></div><div class="lbl">תיבת הרעיונות<small>כל רעיון נחשב</small></div><div class="pile" id="pile"></div></div>
+        <div class="tapHint">לחצו על התיבה כדי להכניס עוד רעיון</div>
       </div>
     </div>
   </div>
@@ -441,16 +453,71 @@ footer.foot{position:absolute;bottom:2.4vh;right:50%;transform:translateX(50%);z
   }
   addEventListener('resize', fit); fit(); document.fonts && document.fonts.ready.then(fit);
 
-  // the idea box: notes keep dropping in through the slot
-  const IDEAS = ['יום פיג׳מות', 'תחרות כישרונות', 'יום ספורט', 'להיכנס לכיתה בהפסקה', 'יום צבעים', 'שירותים נקיים', 'יום משחקים', 'פינת קריאה בכיתה'];
-  const paper = document.getElementById('paper'), ideaCount = document.getElementById('ideaCount');
-  let ideaT = 0, ideaN = 0, n = 0;
-  function dropIdea() {
-    paper.classList.remove('go'); void paper.offsetWidth;
-    paper.textContent = IDEAS[ideaN++ % IDEAS.length]; paper.classList.add('go');
-    setTimeout(() => { ideaCount.textContent = ++n; ideaCount.animate([{ transform: 'scale(1.5)' }, { transform: 'scale(1)' }], { duration: 400 }); }, 2600);
+  // the idea box: handwritten notes fly in from both sides on an arc, hover over the slot, fold and slide in
+  const IDEAS = ['יום פיג׳מות', 'תחרות כישרונות', 'יום ספורט', 'להיכנס לכיתה בהפסקה', 'יום צבעים', 'שירותים נקיים', 'יום משחקים', 'פינת קריאה בכיתה', 'טיול שנתי', 'מוזיקה בהפסקה'];
+  const NOTE_C = ['#ffffff', '#fff3c4', '#d6f0ff', '#d9fbf6', '#eaf7ff'];
+  const stage = document.querySelector('.boxStage'), box = document.getElementById('ideaBox'), slot = document.getElementById('slot'), pile = document.getElementById('pile');
+  const ideaCount = document.getElementById('ideaCount');
+  let ideaT = 0, ideaN = 0, n = 0, flying = 0;
+  const ease = t => 1 - Math.pow(1 - t, 3);
+  function local() {   // stage-relative coordinates, undoing the slide's fit-to-screen scale
+    const st = stage.getBoundingClientRect(), k = stage.offsetWidth / st.width, sl = slot.getBoundingClientRect();
+    return { w: stage.offsetWidth, h: stage.offsetHeight, x: (sl.left - st.left + sl.width / 2) * k, y: (sl.top - st.top) * k };
   }
-  function startIdeas() { if (ideaT || reduce) return; setTimeout(dropIdea, 900); ideaT = setInterval(dropIdea, 3400); }
+  function dropIdea() {
+    if (flying > 3) return;
+    const L = local(), note = document.createElement('div');
+    note.className = 'note'; note.style.setProperty('--c', NOTE_C[ideaN % NOTE_C.length]);
+    note.innerHTML = `<small>הרעיון שלי:</small><span>${IDEAS[ideaN++ % IDEAS.length]}</span>`;
+    stage.appendChild(note); flying++;
+    const w = note.offsetWidth, h = note.offsetHeight, side = ideaN % 2 ? 1 : -1;
+    const sx = L.x + side * (L.w * .62 + rnd(20, 90)), sy = rnd(-60, L.h * .22);   // start beyond the stage edge
+    const hx = L.x, hy = L.y - h - 26;                                             // hovering over the slot
+    const cx = (sx + hx) / 2 + side * rnd(10, 60), cy = Math.min(sy, hy) - rnd(110, 190); // arc peak
+    const spin = side * rnd(18, 34), frames = [];
+    for (let i = 0; i <= 10; i++) {
+      const t = ease(i / 10), u = 1 - t;
+      const x = u * u * sx + 2 * u * t * cx + t * t * hx, y = u * u * sy + 2 * u * t * cy + t * t * hy;
+      frames.push({ offset: i / 10 * .5, opacity: Math.min(1, i / 2), transform: `translate(${(x - w / 2).toFixed(1)}px,${y.toFixed(1)}px) rotate(${(spin * u + Math.sin(i * 1.3) * 6 * u).toFixed(1)}deg) scale(${(.55 + .45 * t).toFixed(2)})` });
+    }
+    const at = (dy, extra) => `translate(${(hx - w / 2).toFixed(1)}px,${(hy + dy).toFixed(1)}px) ${extra}`;
+    frames.push({ offset: .58, opacity: 1, transform: at(-10, 'rotate(-3deg) scale(1.04)') });
+    frames.push({ offset: .64, opacity: 1, transform: at(0, 'rotate(2deg) scale(1)') });
+    frames.push({ offset: .72, opacity: 1, transform: at(0, 'rotate(0) perspective(500px) rotateX(55deg) scale(.86,.5)') });   // folds in half
+    frames.push({ offset: .78, opacity: 1, transform: at(h * .45, 'perspective(500px) rotateX(70deg) scale(.7,.32)') });
+    frames.push({ offset: 1, opacity: 1, transform: at(h + 40, 'perspective(500px) rotateX(70deg) scale(.7,.32)') });         // slides down behind the front of the box
+    const a = note.animate(frames, { duration: 2900, easing: 'linear', fill: 'forwards' });
+    setTimeout(() => received(L), 2900 * .84);
+    a.onfinish = () => { note.remove(); flying--; };
+  }
+  function received(L) {
+    ideaCount.textContent = ++n;
+    ideaCount.animate([{ transform: 'scale(1.7)', color: '#2fd9e8' }, { transform: 'scale(1)' }], { duration: 500, easing: 'cubic-bezier(.3,1.6,.5,1)' });
+    box.animate([{ transform: 'scale(1)' }, { transform: 'scale(1.05,.93)' }, { transform: 'scale(.98,1.03)' }, { transform: 'scale(1)' }], { duration: 520, easing: 'ease-out' });
+    slot.classList.remove('glow'); void slot.offsetWidth; slot.classList.add('glow');
+    const SC = ['#2fd9e8', '#3fbcf5', '#ffe27a', '#ffffff', '#139fe6'];
+    for (let i = 0; i < 12; i++) {
+      const sp = document.createElement('i'); sp.className = 'spark'; sp.style.background = SC[i % SC.length];
+      if (i % 3 === 0) { sp.style.borderRadius = '2px'; sp.style.width = sp.style.height = '9px'; }
+      stage.appendChild(sp);
+      const ang = Math.PI + Math.PI * (i / 11) + rnd(-.15, .15), d = rnd(60, 150), x = L.x - 6, y = L.y - 6;
+      sp.animate([{ transform: `translate(${x}px,${y}px) scale(1)`, opacity: 1 },
+                  { transform: `translate(${x + Math.cos(ang) * d}px,${y + Math.sin(ang) * d}px) scale(.2)`, opacity: 0 }], { duration: rnd(600, 950), easing: 'cubic-bezier(.1,.8,.3,1)' }).onfinish = () => sp.remove();
+    }
+    const pl = document.createElement('div'); pl.className = 'plus'; pl.textContent = '+1'; stage.appendChild(pl);
+    pl.animate([{ transform: `translate(${L.x + 130}px,${L.y - 4}px) scale(.6)`, opacity: 0 }, { transform: `translate(${L.x + 142}px,${L.y - 44}px) scale(1.15)`, opacity: 1, offset: .3 },
+                { transform: `translate(${L.x + 150}px,${L.y - 96}px) scale(1)`, opacity: 0 }], { duration: 1100, easing: 'ease-out' }).onfinish = () => pl.remove();
+    // the pile behind the window grows, a folded note at a time
+    const it = document.createElement('i'), lvl = Math.min(pile.children.length, 40);
+    it.style.background = NOTE_C[(n + 1) % NOTE_C.length]; it.style.left = rnd(4, 76) + '%';
+    it.style.bottom = Math.min(62, Math.floor(lvl / 4) * 7 + rnd(-2, 4)) + '%'; it.style.rotate = rnd(-28, 28) + 'deg';
+    pile.appendChild(it);
+    it.animate([{ transform: 'translateY(-160%)', opacity: 0 }, { transform: 'translateY(8%)', opacity: 1, offset: .7 }, { transform: 'none' }], { duration: 420, easing: 'ease-in' });
+    if (pile.children.length > 44) pile.firstElementChild.remove();
+  }
+  box.addEventListener('click', () => dropIdea());
+  box.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); e.stopPropagation(); dropIdea(); } });
+  function startIdeas() { if (ideaT || reduce) return; setTimeout(dropIdea, 700); ideaT = setInterval(dropIdea, 1900); }
   function stopIdeas() { clearInterval(ideaT); ideaT = 0; }
 
   // keyboard and buttons: arrows, space, PageUp/PageDown (works with a presentation clicker), Home/End, F for full screen
