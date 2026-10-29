@@ -1,0 +1,471 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>מאיה למועצה</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;700;800;900&display=swap" rel="stylesheet">
+<style>
+:root{
+  --sky-25:#f5fbff; --sky-50:#eaf7ff; --sky-100:#d6f0ff; --sky-200:#b3e4fd; --sky-300:#7fd2fb;
+  --sky-400:#3fbcf5; --sky-500:#139fe6; --sky-600:#0a7fc2; --sky-700:#0b6399; --navy:#0b2b47; --ink:#1d4566;
+  --muted:#5b7d99; --aqua:#2fd9e8; --sun:#ffe27a; --white:#fff;
+  --card:rgba(255,255,255,.72); --stroke:rgba(255,255,255,.9);
+  --shadow:0 30px 60px -20px rgba(10,99,153,.35),0 12px 24px -12px rgba(10,99,153,.25);
+  --ease:cubic-bezier(.2,.8,.2,1);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-snap-type:y mandatory;scroll-behavior:smooth;background:var(--sky-25)}
+body{font-family:'Rubik',system-ui,'Segoe UI',Arial,sans-serif;color:var(--navy);background:var(--sky-25);overflow-x:hidden;-webkit-font-smoothing:antialiased}
+.slide{position:relative;min-height:100vh;height:100vh;scroll-snap-align:start;overflow:hidden;display:flex;align-items:center;justify-content:center;padding:6vh 6vw;isolation:isolate}
+.slide:nth-of-type(odd){background:linear-gradient(180deg,#f2faff 0%,#e3f4ff 100%)}
+.slide:nth-of-type(even){background:linear-gradient(180deg,#e3f4ff 0%,#f2faff 100%)}
+.wrap{position:relative;z-index:5;width:min(1280px,100%);transform-origin:50% 50%}
+
+/* ---------- background layers ---------- */
+.bg{position:absolute;inset:-12% -6%;z-index:0;pointer-events:none}
+.blob{position:absolute;border-radius:50%;filter:blur(60px);opacity:.75;will-change:transform}
+.bubble{position:absolute;border-radius:50%;will-change:transform;
+  background:radial-gradient(circle at 32% 28%,rgba(255,255,255,.95) 0 12%,rgba(255,255,255,.25) 30%,rgba(127,210,251,.25) 62%,rgba(19,159,230,.18) 100%);
+  box-shadow:inset 0 0 0 1.5px rgba(255,255,255,.75),inset -6px -10px 18px rgba(19,159,230,.18)}
+.dot{position:absolute;border-radius:50%;will-change:transform}
+.ghost{position:absolute;font-weight:900;line-height:.8;color:transparent;-webkit-text-stroke:2px rgba(19,159,230,.13);will-change:transform;user-select:none}
+.waves{position:absolute;left:-5%;right:-5%;bottom:-2px;height:28vh;z-index:1;pointer-events:none}
+.waves svg{position:absolute;bottom:0;left:0;width:200%;height:100%;will-change:transform}
+.waves .w1{animation:drift 22s linear infinite}
+.waves .w2{animation:drift 15s linear infinite reverse}
+.waves .w3{animation:drift 10s linear infinite}
+@keyframes drift{to{transform:translateX(-50%)}}
+
+/* ---------- type ---------- */
+.eyebrow{display:inline-flex;align-items:center;gap:10px;font-weight:700;font-size:clamp(14px,1.25vw,19px);color:var(--sky-600);letter-spacing:.02em;
+  background:rgba(255,255,255,.75);border:1px solid var(--stroke);padding:8px 18px;border-radius:99px;box-shadow:0 8px 20px -10px rgba(10,99,153,.4);backdrop-filter:blur(8px)}
+.eyebrow::before{content:'';width:9px;height:9px;border-radius:50%;background:var(--sky-400);box-shadow:0 0 0 5px rgba(63,188,245,.22)}
+h2{font-size:clamp(34px,4.4vw,72px);font-weight:900;line-height:1.05;margin:18px 0 12px;letter-spacing:-.01em}
+.lead{font-size:clamp(17px,1.6vw,26px);color:var(--muted);font-weight:500;max-width:52ch}
+.grad{background:linear-gradient(100deg,var(--sky-600),var(--sky-400) 45%,var(--aqua));-webkit-background-clip:text;background-clip:text;color:transparent}
+
+/* ---------- glass card ---------- */
+.card{position:relative;background:var(--card);border:1.5px solid var(--stroke);border-radius:30px;box-shadow:var(--shadow);backdrop-filter:blur(14px) saturate(1.3);-webkit-backdrop-filter:blur(14px) saturate(1.3);
+  transition:transform .5s var(--ease),box-shadow .5s var(--ease)}
+.card:hover{transform:translateY(-8px);box-shadow:0 40px 70px -24px rgba(10,99,153,.45),0 14px 28px -12px rgba(10,99,153,.3)}
+.card.hl{background:linear-gradient(160deg,rgba(214,240,255,.92),rgba(179,228,253,.75))}
+
+/* ---------- reveal ---------- */
+.rv{opacity:0;transform:translateY(46px) scale(.97);filter:blur(6px);transition:opacity .9s var(--ease),transform 1s var(--ease),filter .9s var(--ease);transition-delay:calc(var(--i,0) * 110ms + 120ms)}
+.slide.in .rv{opacity:1;transform:none;filter:none}
+.rv.l{transform:translateX(-60px)} .rv.r{transform:translateX(60px)} .rv.z{transform:scale(.8) rotate(-4deg)}
+.slide.in .rv.l,.slide.in .rv.r,.slide.in .rv.z{transform:none}
+
+/* ---------- 1. hero ---------- */
+.hero .wrap{display:grid;grid-template-columns:1.1fr .9fr;gap:5vw;align-items:center}
+.hero h1{font-size:clamp(64px,9.6vw,168px);font-weight:900;line-height:.9;letter-spacing:-.02em}
+.hero h1 .w{display:block}
+.hero h1 .ch{display:inline-block;opacity:0;transform:translateY(.6em) rotate(8deg);transition:opacity .7s var(--ease),transform .9s cubic-bezier(.3,1.5,.5,1);transition-delay:calc(var(--c) * 70ms + 200ms)}
+.hero.in h1 .ch{opacity:1;transform:none}
+.hero h1 .w2{background:linear-gradient(100deg,var(--sky-700),var(--sky-500) 50%,var(--aqua));-webkit-background-clip:text;background-clip:text;color:transparent;padding-bottom:.08em}
+.hero h1 .w2 .ch{background:inherit;-webkit-background-clip:text;background-clip:text}
+.pill{display:inline-block;margin:28px 0 22px;font-size:clamp(24px,2.6vw,44px);font-weight:800;color:#fff;padding:.38em 1.1em;border-radius:24px;
+  background:linear-gradient(100deg,var(--sky-500),var(--sky-400) 55%,var(--aqua));box-shadow:0 18px 40px -14px rgba(19,159,230,.7),inset 0 2px 0 rgba(255,255,255,.4);position:relative;overflow:hidden}
+.pill::after{content:'';position:absolute;inset:0;background:linear-gradient(110deg,transparent 30%,rgba(255,255,255,.55) 50%,transparent 70%);transform:translateX(120%);animation:shine 3.6s 2s ease-in-out infinite}
+@keyframes shine{0%{transform:translateX(120%)}45%,100%{transform:translateX(-120%)}}
+.tags{display:flex;flex-wrap:wrap;gap:12px;margin-bottom:22px}
+.tags span{font-weight:700;font-size:clamp(15px,1.3vw,21px);color:var(--sky-700);background:rgba(255,255,255,.8);border:1px solid #fff;padding:9px 18px;border-radius:99px;box-shadow:0 6px 16px -8px rgba(10,99,153,.35)}
+.cta{font-size:clamp(19px,1.8vw,30px);font-weight:800;color:var(--sky-600)}
+.photoStage{position:relative;justify-self:center;width:min(30vw,440px);aspect-ratio:1086/1448;perspective:1200px}
+.ring{position:absolute;inset:-14%;border-radius:50%;border:clamp(16px,2vw,30px) solid rgba(127,210,251,.45);animation:spin 30s linear infinite}
+.ring::before,.ring::after{content:'';position:absolute;width:22px;height:22px;border-radius:50%;background:var(--sky-400);top:8%;left:12%;box-shadow:0 0 0 7px rgba(63,188,245,.25)}
+.ring::after{background:var(--sun);top:auto;bottom:6%;left:auto;right:16%;width:16px;height:16px;box-shadow:0 0 0 6px rgba(255,226,122,.35)}
+@keyframes spin{to{transform:rotate(360deg)}}
+.ring2{position:absolute;inset:-26%;border-radius:50%;border:2px dashed rgba(19,159,230,.25);animation:spin 60s linear infinite reverse}
+.photo{position:absolute;inset:0;border-radius:36px;overflow:hidden;border:8px solid #fff;box-shadow:0 50px 90px -30px rgba(10,99,153,.6),0 0 0 1px rgba(10,99,153,.08);transform-style:preserve-3d;will-change:transform;transition:transform .25s ease-out}
+.photo img{width:100%;height:100%;object-fit:cover;display:block;transform:scale(1.08)}
+.photo::after{content:'';position:absolute;inset:0;background:linear-gradient(125deg,rgba(255,255,255,.35),transparent 40%);pointer-events:none}
+.sticker{position:absolute;z-index:3;display:grid;place-items:center;border-radius:50%;background:#fff;box-shadow:0 18px 30px -12px rgba(10,99,153,.45);font-weight:900;animation:float 5s ease-in-out infinite}
+.sticker.m{width:clamp(70px,7vw,112px);height:clamp(70px,7vw,112px);top:-6%;right:-12%;font-size:clamp(40px,4vw,64px);color:var(--sky-500);border:5px solid var(--sky-200)}
+.sticker.h{width:clamp(56px,5vw,84px);height:clamp(56px,5vw,84px);bottom:16%;left:-14%;font-size:clamp(28px,2.6vw,42px);animation-delay:-2s}
+.sticker.v{width:auto;height:auto;padding:12px 20px;border-radius:18px;bottom:-5%;right:-8%;font-size:clamp(15px,1.3vw,20px);color:var(--sky-700);animation-delay:-3.4s}
+@keyframes float{50%{transform:translateY(-14px) rotate(3deg)}}
+.scrollHint{position:absolute;bottom:4vh;left:50%;transform:translateX(-50%);z-index:6;display:flex;flex-direction:column;align-items:center;gap:8px;color:var(--sky-700);font-weight:700;font-size:15px;opacity:.85}
+.mouse{width:28px;height:44px;border:3px solid var(--sky-600);border-radius:16px;position:relative}
+.mouse::after{content:'';position:absolute;top:8px;left:50%;width:4px;height:9px;margin-left:-2px;border-radius:3px;background:var(--sky-600);animation:wheel 1.6s ease-in-out infinite}
+@keyframes wheel{0%{opacity:0;transform:translateY(-4px)}40%{opacity:1}100%{opacity:0;transform:translateY(12px)}}
+
+/* ---------- 2. about ---------- */
+.about .grid{display:grid;grid-template-columns:1.25fr 1fr;gap:28px;margin-top:4vh}
+.about .card{padding:clamp(24px,3vw,46px)}
+.about h3{font-size:clamp(22px,2.1vw,34px);font-weight:800;margin-bottom:22px}
+.check{display:flex;gap:18px;align-items:flex-start;padding:16px 0;border-bottom:1px dashed rgba(19,159,230,.22)}
+.check:last-child{border:0}
+.tick{flex:none;width:clamp(40px,3.2vw,52px);height:clamp(40px,3.2vw,52px);border-radius:50%;display:grid;place-items:center;color:#fff;font-size:clamp(18px,1.6vw,24px);font-weight:900;
+  background:linear-gradient(140deg,var(--sky-400),var(--sky-600));box-shadow:0 10px 20px -8px rgba(19,159,230,.8)}
+.check b{display:block;font-size:clamp(20px,1.8vw,28px);font-weight:800}
+.check span{color:var(--muted);font-size:clamp(15px,1.3vw,20px)}
+.loves{display:flex;flex-direction:column;align-items:center;text-align:center}
+.avatar{width:clamp(110px,10vw,160px);height:clamp(110px,10vw,160px);border-radius:50%;overflow:hidden;border:6px solid #fff;box-shadow:0 0 0 6px var(--sky-200),0 20px 36px -14px rgba(10,99,153,.6);margin-bottom:22px}
+.avatar img{width:100%;height:auto;transform:translateY(-6%) scale(1.55);transform-origin:50% 8%}
+.chip{width:100%;font-weight:700;font-size:clamp(17px,1.5vw,23px);padding:16px 20px;border-radius:20px;margin-top:12px;background:linear-gradient(100deg,#fff,var(--sky-50));border:1.5px solid var(--sky-100);display:flex;align-items:center;justify-content:center;gap:12px;transition:transform .4s var(--ease)}
+.chip:hover{transform:scale(1.04) rotate(-1deg)}
+.chip i{font-style:normal;font-size:1.3em}
+
+/* ---------- 3 + 4 three cards ---------- */
+.three{display:grid;grid-template-columns:repeat(3,1fr);gap:clamp(18px,2.2vw,34px);margin-top:5vh}
+.three .card{padding:clamp(26px,2.8vw,44px) clamp(22px,2.4vw,38px);display:flex;flex-direction:column;min-height:clamp(300px,44vh,470px)}
+.num{width:clamp(62px,5vw,82px);height:clamp(62px,5vw,82px);border-radius:24px;display:grid;place-items:center;font-size:clamp(30px,2.6vw,42px);font-weight:900;color:#fff;margin-bottom:auto;
+  background:linear-gradient(140deg,var(--sky-300),var(--sky-600));box-shadow:0 16px 30px -12px rgba(19,159,230,.85);transform:rotate(-6deg)}
+.three h3{font-size:clamp(23px,2.2vw,36px);font-weight:900;margin:26px 0 12px;line-height:1.15}
+.three p{color:var(--muted);font-size:clamp(16px,1.35vw,21px);line-height:1.55}
+.promise{margin-top:auto;padding-top:18px;border-top:2px solid var(--sky-100);font-weight:800;font-size:clamp(14px,1.15vw,18px);color:var(--sky-600)}
+.three .card .bigNum{position:absolute;left:18px;bottom:-30px;font-size:180px;font-weight:900;color:rgba(19,159,230,.06);line-height:1;pointer-events:none}
+.icon{width:clamp(96px,8vw,128px);height:clamp(96px,8vw,128px);border-radius:50%;display:grid;place-items:center;margin:0 auto 6px;background:radial-gradient(circle at 35% 30%,#fff,var(--sky-100));box-shadow:inset 0 0 0 2px #fff,0 20px 36px -16px rgba(10,99,153,.55)}
+.icon svg{width:56%;height:56%}
+.days .card{text-align:center;justify-content:center}
+.days .icon svg{animation:bob 4s ease-in-out infinite}
+.days .card:nth-child(2) .icon svg{animation-delay:-1.3s} .days .card:nth-child(3) .icon svg{animation-delay:-2.6s}
+@keyframes bob{50%{transform:translateY(-8px) rotate(6deg)}}
+.note{margin-top:4vh;text-align:center;font-size:clamp(17px,1.6vw,25px);font-weight:800;color:var(--ink)}
+.note mark{background:linear-gradient(transparent 55%,rgba(127,210,251,.55) 55%);color:inherit;padding:0 4px}
+
+/* ---------- 5. idea box ---------- */
+.ideas .grid{display:grid;grid-template-columns:1.1fr .9fr;gap:5vw;align-items:center;margin-top:3vh}
+.steps{position:relative;padding-right:0}
+.steps::before{content:'';position:absolute;right:clamp(26px,2.2vw,34px);top:40px;bottom:40px;width:4px;border-radius:4px;background:linear-gradient(var(--sky-200),var(--sky-400))}
+.step{position:relative;display:flex;gap:24px;align-items:flex-start;padding:16px 0}
+.step .n{flex:none;width:clamp(54px,4.4vw,70px);height:clamp(54px,4.4vw,70px);border-radius:50%;display:grid;place-items:center;font-weight:900;font-size:clamp(24px,2vw,32px);color:#fff;
+  background:linear-gradient(140deg,var(--sky-400),var(--sky-600));box-shadow:0 0 0 7px var(--sky-25),0 14px 26px -10px rgba(19,159,230,.8);z-index:1}
+.step b{display:block;font-size:clamp(22px,2vw,32px);font-weight:900}
+.step span{color:var(--muted);font-size:clamp(15px,1.3vw,20px)}
+.equation{display:inline-flex;align-items:center;gap:14px;margin-top:22px;padding:16px 30px;border-radius:22px;font-weight:900;font-size:clamp(19px,1.8vw,28px);
+  background:linear-gradient(100deg,#fff6cf,var(--sun));color:var(--navy);box-shadow:0 18px 34px -16px rgba(200,150,0,.55)}
+.equation em{font-style:normal;color:var(--sky-600);font-size:1.3em}
+.boxStage{position:relative;height:min(60vh,520px);display:flex;align-items:flex-end;justify-content:center}
+.box{position:relative;width:min(100%,400px);height:62%;border-radius:34px 34px 40px 40px;background:linear-gradient(160deg,var(--sky-300),var(--sky-500));
+  box-shadow:0 40px 70px -26px rgba(10,99,153,.75),inset 0 3px 0 rgba(255,255,255,.45),inset 0 -14px 30px rgba(10,99,153,.3);display:grid;place-items:center;z-index:2}
+.box .lbl{color:#fff;font-weight:900;font-size:clamp(30px,3vw,50px);text-align:center;line-height:1.05;text-shadow:0 4px 14px rgba(10,99,153,.5)}
+.box .lbl small{display:block;font-size:.42em;font-weight:700;opacity:.9;margin-top:8px}
+.slot{position:absolute;top:-10px;left:16%;right:16%;height:22px;border-radius:12px;background:var(--navy);box-shadow:inset 0 6px 8px rgba(0,0,0,.5),0 0 0 6px var(--sky-200)}
+.paper{position:absolute;top:0;left:50%;width:min(76%,290px);padding:16px 20px;background:#fff;border-radius:14px;font-weight:800;font-size:clamp(15px,1.3vw,20px);color:var(--ink);text-align:center;
+  box-shadow:0 18px 30px -14px rgba(10,99,153,.55);transform:translate(-50%,0);z-index:1;opacity:0}
+.paper::before{content:'💡';margin-left:8px}
+.paper.go{animation:dropIn 3.2s var(--ease) forwards}
+@keyframes dropIn{0%{opacity:0;transform:translate(-50%,-40px) rotate(-8deg)}15%{opacity:1;transform:translate(-50%,0) rotate(4deg)}55%{opacity:1;transform:translate(-50%,8%) rotate(-2deg)}
+  85%{opacity:1;transform:translate(-50%,calc(min(60vh,520px)*.36)) rotate(0)}100%{opacity:0;transform:translate(-50%,calc(min(60vh,520px)*.42)) rotate(0)}}
+.counter{position:absolute;top:8%;left:2%;z-index:3;background:#fff;border-radius:18px;padding:12px 18px;font-weight:800;color:var(--sky-700);box-shadow:var(--shadow);font-size:clamp(14px,1.2vw,18px)}
+.counter b{font-size:1.6em;color:var(--sky-500);display:block;line-height:1}
+
+/* ---------- 6. why me ---------- */
+.why{text-align:center}
+.why h2{font-size:clamp(40px,5.2vw,86px)}
+.why .three .card{min-height:auto;align-items:center;padding:clamp(26px,2.6vw,40px)}
+.why .tick{width:clamp(58px,4.6vw,72px);height:clamp(58px,4.6vw,72px);font-size:clamp(26px,2.2vw,34px);margin-bottom:18px}
+.why .three h3{margin:0 0 6px}
+.banner{position:relative;margin:5vh auto 0;max-width:1000px;padding:clamp(22px,2.6vw,38px) 30px;border-radius:32px;font-size:clamp(28px,3.6vw,60px);font-weight:900;color:#fff;
+  background:linear-gradient(100deg,var(--sky-600),var(--sky-400) 50%,var(--aqua));box-shadow:0 30px 60px -20px rgba(19,159,230,.75),inset 0 3px 0 rgba(255,255,255,.35);overflow:hidden}
+.banner::after{content:'';position:absolute;inset:0;background:linear-gradient(110deg,transparent 30%,rgba(255,255,255,.5) 50%,transparent 70%);transform:translateX(120%);animation:shine 4s 1.4s ease-in-out infinite}
+.vote{margin-top:3.4vh;font-size:clamp(22px,2.2vw,36px);font-weight:900;color:var(--sky-600)}
+.heart{display:inline-block;animation:beat 1.3s ease-in-out infinite}
+@keyframes beat{0%,100%{transform:scale(1)}20%{transform:scale(1.25)}40%{transform:scale(.95)}60%{transform:scale(1.15)}}
+.why .mini{position:absolute;width:clamp(130px,13vw,220px);aspect-ratio:1086/1448;border-radius:24px;overflow:hidden;border:6px solid #fff;box-shadow:var(--shadow);z-index:4}
+.why .mini img{width:100%;height:100%;object-fit:cover}
+.why .mini.a{right:3vw;bottom:9vh;width:clamp(110px,10vw,170px);rotate:8deg}
+.confetti{position:absolute;inset:0;z-index:3;pointer-events:none;overflow:hidden}
+.confetti i{position:absolute;top:-20px;width:12px;height:18px;border-radius:3px;opacity:0}
+.why.in .confetti i{animation:fall var(--t) linear var(--d) infinite}
+@keyframes fall{0%{opacity:0;transform:translateY(0) rotate(0)}8%{opacity:1}100%{opacity:.9;transform:translateY(110vh) rotate(720deg)}}
+
+/* ---------- chrome: progress, dots, counter ---------- */
+#progress{position:fixed;top:0;right:0;left:0;height:5px;z-index:50;background:rgba(19,159,230,.12)}
+#progress div{height:100%;width:0;background:linear-gradient(90deg,var(--aqua),var(--sky-500));border-radius:0 0 0 4px;transition:width .2s}
+#dots{position:fixed;left:22px;top:50%;transform:translateY(-50%);z-index:50;display:flex;flex-direction:column;gap:14px}
+#dots button{width:14px;height:14px;border-radius:50%;border:2.5px solid var(--sky-500);background:transparent;cursor:pointer;transition:all .35s var(--ease);position:relative}
+#dots button.on{background:var(--sky-500);transform:scale(1.35);box-shadow:0 0 0 5px rgba(19,159,230,.2)}
+#dots button span{position:absolute;left:26px;top:50%;transform:translateY(-50%) translateX(-6px);white-space:nowrap;background:var(--navy);color:#fff;font:700 13px 'Rubik',sans-serif;padding:5px 11px;border-radius:9px;opacity:0;pointer-events:none;transition:.25s}
+#dots button:hover span{opacity:1;transform:translateY(-50%)}
+#hud{position:fixed;bottom:20px;left:22px;z-index:50;display:flex;gap:10px;align-items:center}
+#hud button{width:46px;height:46px;border-radius:50%;border:0;background:rgba(255,255,255,.85);box-shadow:0 10px 22px -10px rgba(10,99,153,.55);color:var(--sky-600);font-size:20px;cursor:pointer;backdrop-filter:blur(6px);transition:transform .2s}
+#hud button:hover{transform:scale(1.1)}
+#hud .count{font-weight:800;color:var(--sky-700);background:rgba(255,255,255,.85);padding:10px 16px;border-radius:99px;box-shadow:0 10px 22px -10px rgba(10,99,153,.55);font-size:15px;min-width:72px;text-align:center}
+footer.foot{position:absolute;bottom:2.4vh;right:50%;transform:translateX(50%);z-index:6;font-size:13px;color:var(--muted);font-weight:500;opacity:.8}
+
+@media (max-width:900px){
+  html{scroll-snap-type:y proximity}
+  .slide{height:auto;min-height:100vh;padding:12vh 16px 10vh}
+  .hero .wrap,.about .grid,.ideas .grid{grid-template-columns:1fr}
+  .three{grid-template-columns:1fr}
+  .three .card{min-height:auto}
+  .photoStage{width:min(70vw,340px);margin-top:30px}
+  .boxStage{height:380px}
+  #dots{display:none}
+  .why .mini{display:none}
+  .scrollHint{display:none}
+}
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation:none!important;transition:none!important}
+  .rv,.hero h1 .ch{opacity:1!important;transform:none!important;filter:none!important}
+}
+</style>
+</head>
+<body>
+<div id="progress"><div></div></div>
+<nav id="dots" aria-label="ניווט בין השקפים"></nav>
+<div id="hud">
+  <button id="prev" title="הקודם (חץ למעלה)">▲</button>
+  <button id="next" title="הבא (חץ למטה / רווח)">▼</button>
+  <div class="count" id="count" dir="ltr">1 / 6</div>
+  <button id="fs" title="מסך מלא (F)">⛶</button>
+</div>
+
+<!-- 1 · שער -->
+<section class="slide hero" data-title="מאיה למועצה" data-bg="hero">
+  <div class="wrap">
+    <div>
+      <span class="eyebrow rv" style="--i:0">מועצת התלמידים</span>
+      <h1 aria-label="מאיה למועצה"><span class="w w1" data-split>מאיה</span><span class="w w2" data-split>למועצה</span></h1>
+      <div class="pill rv z" style="--i:6">והכיתה מרוצה!</div>
+      <div class="tags rv" style="--i:7"><span>יותר נעים</span><span>יותר כיף</span><span>יותר קול לתלמידים</span></div>
+      <p class="cta rv" style="--i:8">בואו נעשה את הכיתה שלנו אפילו יותר טובה <span class="heart">💙</span></p>
+    </div>
+    <div class="photoStage rv r" style="--i:3" data-depth="18">
+      <div class="ring2"></div><div class="ring"></div>
+      <div class="photo" id="tilt"><img src="maya.jpg" alt="מאיה עם הלוגו מאיה למועצה והכיתה מרוצה"></div>
+      <div class="sticker m">מ</div>
+      <div class="sticker h">💙</div>
+      <div class="sticker v">✓ מצביעים מאיה</div>
+    </div>
+  </div>
+  <div class="scrollHint"><div class="mouse"></div>גללו למטה</div>
+</section>
+
+<!-- 2 · קצת עליי -->
+<section class="slide about" data-title="קצת עליי">
+  <div class="wrap">
+    <span class="eyebrow rv">קצת עליי</span>
+    <h2 class="rv" style="--i:1">היי, אני <span class="grad">מאיה</span> <span style="display:inline-block;animation:wave 2.4s ease-in-out infinite;transform-origin:70% 70%">👋</span></h2>
+    <p class="lead rv" style="--i:2">ואני רוצה לייצג את הכיתה שלנו במועצת התלמידים.</p>
+    <div class="grid">
+      <div class="card rv l" style="--i:3">
+        <h3>חשוב לי שיהיה לנו בבית הספר...</h3>
+        <div class="check"><div class="tick">✓</div><div><b>נעים</b><span>שנרגיש טוב בכיתה ובבית הספר</span></div></div>
+        <div class="check"><div class="tick">✓</div><div><b>כיף</b><span>שיהיו יותר פעילויות ודברים מיוחדים</span></div></div>
+        <div class="check"><div class="tick">✓</div><div><b>מקשיבים לנו</b><span>שהרעיונות של התלמידים באמת יגיעו למועצה</span></div></div>
+      </div>
+      <div class="card hl loves rv r" style="--i:4">
+        <div class="avatar"><img src="maya.jpg" alt="מאיה"></div>
+        <h3>ומה אני אוהבת?</h3>
+        <div class="chip"><i>🤸‍♀️</i>התעמלות ובלט</div>
+        <div class="chip"><i>🎨</i>רעיונות יצירתיים</div>
+        <div class="chip"><i>🤝</i>לעזור ולהקשיב</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 3 · מה חשוב לי לקדם -->
+<section class="slide" data-title="מה חשוב לי לקדם">
+  <div class="wrap">
+    <span class="eyebrow rv">מה חשוב לי לקדם</span>
+    <h2 class="rv" style="--i:1"><span class="grad">3</span> דברים שישנו את היום־יום שלנו</h2>
+    <div class="three">
+      <div class="card rv" style="--i:2"><div class="num">1</div><div class="bigNum">1</div>
+        <h3>הקול של התלמידים</h3><p>אני אקשיב לרעיונות של הכיתה ואביא אותם איתי למועצת התלמידים.</p>
+        <div class="promise">אני לא מבטיחה לבד — אני אפעל ואייצג.</div></div>
+      <div class="card hl rv" style="--i:3"><div class="num">2</div><div class="bigNum">2</div>
+        <h3>בחירה בהפסקה</h3><p>אעלה את הרעיון לאפשר, כשאפשר, להיכנס לכיתה גם בהפסקות ולא להיות חייבים תמיד בחוץ.</p>
+        <div class="promise">אני לא מבטיחה לבד — אני אפעל ואייצג.</div></div>
+      <div class="card rv" style="--i:4"><div class="num">3</div><div class="bigNum">3</div>
+        <h3>שירותים נקיים יותר</h3><p>אפעל לכך שיטפלו יותר בניקיון ובתחזוקה, כדי שיהיה נעים להשתמש בשירותים.</p>
+        <div class="promise">אני לא מבטיחה לבד — אני אפעל ואייצג.</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- 4 · ימים מיוחדים -->
+<section class="slide days" data-title="יותר כיף בבית הספר">
+  <div class="wrap">
+    <span class="eyebrow rv">יותר כיף בבית הספר</span>
+    <h2 class="rv" style="--i:1">ימים מיוחדים שאנחנו <span class="grad">באמת נחכה להם</span></h2>
+    <div class="three">
+      <div class="card rv" style="--i:2">
+        <div class="icon"><svg viewBox="0 0 64 64"><g stroke="#f5a623" stroke-width="4" stroke-linecap="round"><path d="M32 4v8M32 52v8M4 32h8M52 32h8M12 12l6 6M46 46l6 6M12 52l6-6M46 18l6-6"/></g><circle cx="32" cy="32" r="13" fill="#ffd23f" stroke="#f5a623" stroke-width="3"/></svg></div>
+        <h3>ימים מיוחדים</h3><p>יום פיג׳מות, יום צבעים, יום משחקים ועוד</p></div>
+      <div class="card hl rv" style="--i:3">
+        <div class="icon"><svg viewBox="0 0 64 64"><path d="M24 46V14l26-6v32" fill="none" stroke="#139fe6" stroke-width="4.5" stroke-linejoin="round"/><ellipse cx="17" cy="47" rx="8" ry="6.5" fill="#139fe6"/><ellipse cx="43" cy="41" rx="8" ry="6.5" fill="#3fbcf5"/></svg></div>
+        <h3>תחרות כישרונות</h3><p>שירה, ריקוד, קסמים, התעמלות ועוד</p></div>
+      <div class="card rv" style="--i:4">
+        <div class="icon"><svg viewBox="0 0 64 64"><path d="M32 5l8 17 18 2-13.5 12.5L48 55 32 46 16 55l3.5-18.5L6 24l18-2z" fill="#139fe6" stroke="#0a7fc2" stroke-width="2.5" stroke-linejoin="round"/></svg></div>
+        <h3>יום ספורט</h3><p>תחנות, משחקים ואתגרים בין הכיתות</p></div>
+    </div>
+    <p class="note rv" style="--i:5">לא כל רעיון יקרה מיד — <mark>אבל אני אדאג שהוא יגיע למקום שבו אפשר לקדם אותו.</mark></p>
+  </div>
+</section>
+
+<!-- 5 · תיבת הרעיונות -->
+<section class="slide ideas" data-title="תיבת הרעיונות">
+  <div class="wrap">
+    <span class="eyebrow rv">הרעיון הכי חשוב</span>
+    <h2 class="rv" style="--i:1">תיבת הרעיונות <span class="grad">של הכיתה</span> 💡</h2>
+    <p class="lead rv" style="--i:2">כי נציגת מועצה טובה לא מביאה רק את הרעיונות שלה — אלא את הרעיונות של כולם.</p>
+    <div class="grid">
+      <div>
+        <div class="steps">
+          <div class="step rv" style="--i:3"><div class="n">1</div><div><b>כותבים רעיון</b><span>כל תלמיד יכול להציע משהו שהיה רוצה לשפר או להוסיף.</span></div></div>
+          <div class="step rv" style="--i:4"><div class="n">2</div><div><b>מצביעים בכיתה</b><span>פעם בחודש נבחר יחד רעיון אחד שאנחנו הכי רוצים לקדם.</span></div></div>
+          <div class="step rv" style="--i:5"><div class="n">3</div><div><b>אני מביאה למועצה</b><span>אני מייצגת את הכיתה ומעדכנת מה קרה עם ההצעה.</span></div></div>
+        </div>
+        <div class="equation rv z" style="--i:6">הרעיונות שלכם <em>=</em> המשימה שלי</div>
+      </div>
+      <div class="boxStage rv r" style="--i:4" data-depth="14">
+        <div class="counter">רעיונות בתיבה<b id="ideaCount">0</b></div>
+        <div class="paper" id="paper">הרעיון שלי...</div>
+        <div class="box"><div class="slot"></div><div class="lbl">תיבת<br>הרעיונות<small>כל רעיון נחשב</small></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 6 · למה לבחור בי -->
+<section class="slide why" data-title="למה לבחור בי">
+  <div class="confetti" id="confetti"></div>
+  <div class="mini a rv l" style="--i:2" data-depth="22"><img src="maya.jpg" alt="מאיה"></div>
+  <div class="wrap">
+    <h2 class="rv">אז למה <span class="grad">לבחור בי?</span></h2>
+    <div class="three">
+      <div class="card rv" style="--i:1"><div class="tick">✓</div><h3>אני אקשיב</h3><p>לרעיונות שלכם</p></div>
+      <div class="card hl rv" style="--i:2"><div class="tick">✓</div><h3>אני אייצג</h3><p>את הכיתה במועצה</p></div>
+      <div class="card rv" style="--i:3"><div class="tick">✓</div><h3>אני אעדכן</h3><p>מה קרה עם ההצעות</p></div>
+    </div>
+    <div class="banner rv z" style="--i:5">מאיה למועצה — והכיתה מרוצה!</div>
+    <p class="vote rv" style="--i:6">אשמח לקול שלכם <span class="heart">💙</span></p>
+  </div>
+</section>
+
+<style>@keyframes wave{0%,60%,100%{transform:rotate(0)}10%,30%{transform:rotate(16deg)}20%,40%{transform:rotate(-10deg)}}</style>
+<script>
+(() => {
+  const slides = [...document.querySelectorAll('.slide')];
+  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const rnd = (a, b) => a + Math.random() * (b - a);
+
+  // split the hero title into letters that rise one by one
+  let c = 0;
+  document.querySelectorAll('[data-split]').forEach(w => {
+    w.innerHTML = [...w.textContent].map(ch => `<span class="ch" style="--c:${c++}">${ch}</span>`).join('');
+  });
+
+  // background layers for every slide: soft glows, bubbles, dots, a giant outlined letter, and waves on the first and last
+  const WAVES = `<svg class="w1" viewBox="0 0 2880 320" preserveAspectRatio="none"><path fill="#b3e4fd" fill-opacity=".55" d="M0 170C240 110 480 110 720 170S1200 230 1440 170 1920 110 2160 170 2640 230 2880 170V320H0Z"/></svg>
+    <svg class="w2" viewBox="0 0 2880 320" preserveAspectRatio="none"><path fill="#7fd2fb" fill-opacity=".5" d="M0 220C200 180 520 260 720 220S1240 180 1440 220 1960 260 2160 220 2680 180 2880 220V320H0Z"/></svg>
+    <svg class="w3" viewBox="0 0 2880 320" preserveAspectRatio="none"><path fill="#3fbcf5" fill-opacity=".45" d="M0 265C240 245 480 290 720 265S1200 240 1440 265 1920 290 2160 265 2640 240 2880 265V320H0Z"/></svg>`;
+  const GHOST = ['מ', '♥', '3', '★', '?', '✓'];
+  slides.forEach((s, i) => {
+    const bg = document.createElement('div'); bg.className = 'bg';
+    const blobs = [['#7fd2fb', 46, 8, 12], ['#b3e4fd', 40, 62, 58], ['#2fd9e8', 26, 78, 6], ['#d6f0ff', 50, 20, 70]];
+    bg.innerHTML += blobs.map(([col, sz, x, y], k) => `<div class="blob" data-speed="${(k % 2 ? .18 : -.12)}" style="background:${col};width:${sz}vw;height:${sz}vw;left:${x + rnd(-6, 6)}%;top:${y + rnd(-6, 6)}%"></div>`).join('');
+    bg.innerHTML += `<div class="ghost" data-speed="-.35" data-depth="-10" style="font-size:${i === 0 ? 70 : 52}vh;${i % 2 ? 'right' : 'left'}:${rnd(-4, 8)}%;top:${rnd(8, 30)}%">${GHOST[i]}</div>`;
+    for (let k = 0; k < 14; k++) {
+      const sz = rnd(14, 90), sp = (sz / 90) * rnd(.4, .9) * (Math.random() < .5 ? 1 : .7);
+      bg.innerHTML += `<div class="bubble" data-speed="${(-sp).toFixed(2)}" data-depth="${(sz / 6).toFixed(1)}" style="width:${sz}px;height:${sz}px;left:${rnd(0, 100)}%;top:${rnd(0, 100)}%"></div>`;
+    }
+    for (let k = 0; k < 10; k++) {
+      const sz = rnd(6, 14), col = Math.random() < .35 ? '#ffe27a' : Math.random() < .5 ? '#3fbcf5' : '#fff';
+      bg.innerHTML += `<div class="dot" data-speed="${rnd(-.6, .3).toFixed(2)}" data-depth="${rnd(4, 20).toFixed(1)}" style="width:${sz}px;height:${sz}px;background:${col};left:${rnd(0, 100)}%;top:${rnd(0, 100)}%;box-shadow:0 0 0 ${sz / 2}px ${col}33"></div>`;
+    }
+    s.prepend(bg);
+    if (i === 0 || i === slides.length - 1) { const w = document.createElement('div'); w.className = 'waves'; w.dataset.speed = '.25'; w.innerHTML = WAVES; s.appendChild(w); }
+    const f = document.createElement('footer'); f.className = 'foot'; f.textContent = 'מאיה למועצה · והכיתה מרוצה!'; if (i) s.appendChild(f);
+  });
+
+  // confetti for the last slide, all in blues, white and a touch of sun
+  const conf = document.getElementById('confetti');
+  const CC = ['#139fe6', '#3fbcf5', '#7fd2fb', '#2fd9e8', '#ffffff', '#ffe27a', '#0a7fc2'];
+  for (let k = 0; k < 70; k++) conf.innerHTML += `<i style="left:${rnd(0, 100)}%;background:${CC[k % CC.length]};--t:${rnd(4, 9).toFixed(1)}s;--d:${rnd(0, 6).toFixed(1)}s;width:${rnd(8, 14)}px;height:${rnd(10, 20)}px;border-radius:${Math.random() < .4 ? '50%' : '3px'}"></i>`;
+
+  // parallax: every [data-speed] layer moves with the scroll, every [data-depth] layer follows the mouse
+  const layers = slides.map(s => [...s.querySelectorAll('[data-speed],[data-depth]')]);
+  let mx = 0, my = 0, tx = 0, ty = 0;
+  addEventListener('pointermove', e => { mx = e.clientX / innerWidth - .5; my = e.clientY / innerHeight - .5; });
+  function frame() {
+    tx += (mx - tx) * .07; ty += (my - ty) * .07;
+    const vh = innerHeight;
+    slides.forEach((s, i) => {
+      const r = s.getBoundingClientRect();
+      if (r.bottom < -vh * .2 || r.top > vh * 1.2) return;
+      const off = (r.top + r.height / 2 - vh / 2);   // 0 when the slide is centred
+      for (const el of layers[i]) {
+        const sp = +(el.dataset.speed || 0), dp = +(el.dataset.depth || 0);
+        el.style.translate = `${(-tx * dp * 2).toFixed(1)}px ${(off * sp - ty * dp * 2).toFixed(1)}px`;
+      }
+    });
+    const max = document.documentElement.scrollHeight - vh;
+    bar.style.width = (max > 0 ? scrollY / max * 100 : 0) + '%';
+    if (!reduce) requestAnimationFrame(frame);
+  }
+  const bar = document.querySelector('#progress div');
+  if (reduce) addEventListener('scroll', frame, { passive: true });
+  frame();
+
+  // 3D tilt on the hero photo
+  const tilt = document.getElementById('tilt');
+  document.querySelector('.hero').addEventListener('pointermove', e => {
+    const r = tilt.getBoundingClientRect(), x = (e.clientX - r.left) / r.width - .5, y = (e.clientY - r.top) / r.height - .5;
+    tilt.style.transform = `rotateY(${(x * 14).toFixed(1)}deg) rotateX(${(-y * 12).toFixed(1)}deg) translateZ(10px)`;
+  });
+  document.querySelector('.hero').addEventListener('pointerleave', () => tilt.style.transform = '');
+
+  // reveal: a slide plays its entrance every time it comes into view
+  let cur = 0;
+  const dots = document.getElementById('dots'), count = document.getElementById('count');
+  slides.forEach((s, i) => { const b = document.createElement('button'); b.innerHTML = `<span>${s.dataset.title}</span>`; b.onclick = () => go(i); dots.appendChild(b); });
+  const io = new IntersectionObserver(es => es.forEach(e => {
+    const i = slides.indexOf(e.target);
+    if (e.isIntersecting && e.intersectionRatio > .45) {
+      e.target.classList.add('in'); cur = i;
+      [...dots.children].forEach((d, k) => d.classList.toggle('on', k === i));
+      count.textContent = `${i + 1} / ${slides.length}`;
+      if (e.target.classList.contains('ideas')) startIdeas(); else stopIdeas();
+    } else if (!e.isIntersecting) e.target.classList.remove('in');
+  }), { threshold: [0, .45, .7] });
+  slides.forEach(s => io.observe(s));
+
+  // fit: a slide whose content is taller than the screen shrinks to fit (short laptop screens, projectors)
+  function fit() {
+    for (const s of slides) {
+      const w = s.querySelector('.wrap'); w.style.scale = '';
+      if (innerWidth <= 900) continue;
+      const room = innerHeight * .86, h = w.scrollHeight;
+      if (h > room) w.style.scale = (room / h).toFixed(3);
+    }
+  }
+  addEventListener('resize', fit); fit(); document.fonts && document.fonts.ready.then(fit);
+
+  // the idea box: notes keep dropping in through the slot
+  const IDEAS = ['יום פיג׳מות', 'תחרות כישרונות', 'יום ספורט', 'להיכנס לכיתה בהפסקה', 'יום צבעים', 'שירותים נקיים', 'יום משחקים', 'פינת קריאה בכיתה'];
+  const paper = document.getElementById('paper'), ideaCount = document.getElementById('ideaCount');
+  let ideaT = 0, ideaN = 0, n = 0;
+  function dropIdea() {
+    paper.classList.remove('go'); void paper.offsetWidth;
+    paper.textContent = IDEAS[ideaN++ % IDEAS.length]; paper.classList.add('go');
+    setTimeout(() => { ideaCount.textContent = ++n; ideaCount.animate([{ transform: 'scale(1.5)' }, { transform: 'scale(1)' }], { duration: 400 }); }, 2600);
+  }
+  function startIdeas() { if (ideaT || reduce) return; setTimeout(dropIdea, 900); ideaT = setInterval(dropIdea, 3400); }
+  function stopIdeas() { clearInterval(ideaT); ideaT = 0; }
+
+  // keyboard and buttons: arrows, space, PageUp/PageDown (works with a presentation clicker), Home/End, F for full screen
+  function go(i) { i = Math.max(0, Math.min(slides.length - 1, i)); slides[i].scrollIntoView({ behavior: 'smooth' }); }
+  addEventListener('keydown', e => {
+    if (['ArrowDown', 'PageDown', ' ', 'Enter', 'ArrowLeft'].includes(e.key)) { e.preventDefault(); go(cur + 1); }
+    else if (['ArrowUp', 'PageUp', 'Backspace', 'ArrowRight'].includes(e.key)) { e.preventDefault(); go(cur - 1); }
+    else if (e.key === 'Home') { e.preventDefault(); go(0); }
+    else if (e.key === 'End') { e.preventDefault(); go(slides.length - 1); }
+    else if (e.key === 'f' || e.key === 'F' || e.key === 'כ') toggleFs();
+  });
+  document.getElementById('next').onclick = () => go(cur + 1);
+  document.getElementById('prev').onclick = () => go(cur - 1);
+  function toggleFs() { document.fullscreenElement ? document.exitFullscreen() : document.documentElement.requestFullscreen().catch(() => {}); }
+  document.getElementById('fs').onclick = toggleFs;
+})();
+</script>
+</body>
+</html>
