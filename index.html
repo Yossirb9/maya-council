@@ -218,7 +218,7 @@ footer.foot{position:absolute;bottom:2.4vh;right:50%;transform:translateX(50%);z
 </div>
 
 <!-- 1 · שער -->
-<section class="slide hero" data-title="מאיה למועצה" data-bg="hero">
+<section class="slide hero in" data-title="מאיה למועצה" data-bg="hero">
   <div class="wrap">
     <div>
       <span class="eyebrow rv" style="--i:0">מועצת התלמידים</span>
@@ -420,13 +420,14 @@ footer.foot{position:absolute;bottom:2.4vh;right:50%;transform:translateX(50%);z
   slides.forEach((s, i) => { const b = document.createElement('button'); b.innerHTML = `<span>${s.dataset.title}</span>`; b.onclick = () => go(i); dots.appendChild(b); });
   const io = new IntersectionObserver(es => es.forEach(e => {
     const i = slides.indexOf(e.target);
-    if (e.isIntersecting && e.intersectionRatio > .45) {
+    // a slide counts as shown when most of it is in view, or when it fills most of the screen (tall slides on a phone)
+    if (e.isIntersecting && (e.intersectionRatio > .45 || e.intersectionRect.height > innerHeight * .45)) {
       e.target.classList.add('in'); cur = i;
       [...dots.children].forEach((d, k) => d.classList.toggle('on', k === i));
       count.textContent = `${i + 1} / ${slides.length}`;
       if (e.target.classList.contains('ideas')) startIdeas(); else stopIdeas();
     } else if (!e.isIntersecting) e.target.classList.remove('in');
-  }), { threshold: [0, .45, .7] });
+  }), { threshold: [0, .1, .2, .3, .45, .7] });
   slides.forEach(s => io.observe(s));
 
   // fit: a slide whose content is taller than the screen shrinks to fit (short laptop screens, projectors)
